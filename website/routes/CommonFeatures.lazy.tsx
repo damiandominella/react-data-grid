@@ -397,7 +397,7 @@ function CommonFeatures() {
         bottomSummaryRows={summaryRows}
         className="fill-grid"
         direction={direction}
-        enableVirtualization={!isExporting}
+        enableVirtualization={isExporting ? 'none' : 'all'}
       />
     </>
   );

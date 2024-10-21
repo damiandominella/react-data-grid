@@ -316,3 +316,5 @@ export interface Renderers<TRow, TSummaryRow> {
 }
 
 export type Direction = 'ltr' | 'rtl';
+
+export type Virtualization = 'rows' | 'columns' | 'all' | 'none';

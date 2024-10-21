@@ -3,8 +3,8 @@ import { faker } from '@faker-js/faker';
 import { createLazyFileRoute } from '@tanstack/react-router';
 import { css } from '@linaria/core';
 
-import DataGrid from '../../src';
 import type { Column, DataGridHandle, RowsChangeData } from '../../src';
+import DataGrid from '../../src';
 import type { Direction } from '../../src/types';
 import { CellExpanderFormatter } from '../components';
 import { useDirection } from '../directionContext';
@@ -137,7 +137,7 @@ function MasterDetail() {
       headerRowHeight={45}
       rowHeight={(row) => (row.type === 'DETAIL' ? 300 : 45)}
       className="fill-grid"
-      enableVirtualization={false}
+      enableVirtualization={'none'}
       direction={direction}
       onCellKeyDown={(_, event) => {
         if (event.isDefaultPrevented()) {

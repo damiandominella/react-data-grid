@@ -1,5 +1,5 @@
-import { forwardRef, useCallback, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import type { Key, KeyboardEvent, RefAttributes } from 'react';
+import { forwardRef, useCallback, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import { flushSync } from 'react-dom';
 import clsx from 'clsx';
 
@@ -50,7 +50,8 @@ import type {
   RowsChangeData,
   SelectHeaderRowEvent,
   SelectRowEvent,
-  SortColumn
+  SortColumn,
+  Virtualization
 } from './types';
 import { renderCheckbox as defaultRenderCheckbox } from './cellRenderers';
 import {
@@ -193,7 +194,8 @@ export interface DataGridProps<R, SR = unknown, K extends Key = Key> extends Sha
    * Toggles and modes
    */
   /** @default true */
-  enableVirtualization?: Maybe<boolean>;
+  // enableVirtualization?: Maybe<boolean>;
+  enableVirtualization?: Maybe<Virtualization>;
 
   /**
    * Miscellaneous
@@ -278,7 +280,7 @@ function DataGrid<R, SR, K extends Key>(
   const renderCheckbox =
     renderers?.renderCheckbox ?? defaultRenderers?.renderCheckbox ?? defaultRenderCheckbox;
   const noRowsFallback = renderers?.noRowsFallback ?? defaultRenderers?.noRowsFallback;
-  const enableVirtualization = rawEnableVirtualization ?? true;
+  const enableVirtualization = rawEnableVirtualization ?? 'all';
   const direction = rawDirection ?? 'ltr';
 
   /**

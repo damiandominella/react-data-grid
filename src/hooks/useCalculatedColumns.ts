@@ -1,7 +1,13 @@
 import { useMemo } from 'react';
 
 import { clampColumnWidth, max, min } from '../utils';
-import type { CalculatedColumn, CalculatedColumnParent, ColumnOrColumnGroup, Omit } from '../types';
+import type {
+  CalculatedColumn,
+  CalculatedColumnParent,
+  ColumnOrColumnGroup,
+  Omit,
+  Virtualization
+} from '../types';
 import { renderValue } from '../cellRenderers';
 import { SELECT_COLUMN_KEY } from '../Columns';
 import type { DataGridProps } from '../DataGrid';
@@ -33,7 +39,7 @@ interface CalculatedColumnsArgs<R, SR> {
   viewportWidth: number;
   scrollLeft: number;
   getColumnWidth: (column: CalculatedColumn<R, SR>) => string | number;
-  enableVirtualization: boolean;
+  enableVirtualization: Virtualization;
 }
 
 export function useCalculatedColumns<R, SR>({
@@ -200,7 +206,7 @@ export function useCalculatedColumns<R, SR>({
   }, [getColumnWidth, columns, lastFrozenColumnIndex]);
 
   const [colOverscanStartIdx, colOverscanEndIdx] = useMemo((): [number, number] => {
-    if (!enableVirtualization) {
+    if (enableVirtualization !== 'all' && enableVirtualization !== 'columns') {
       return [0, columns.length - 1];
     }
     // get the viewport's left side and right side positions for non-frozen columns

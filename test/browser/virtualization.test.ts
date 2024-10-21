@@ -1,4 +1,5 @@
 import type { Column } from '../../src';
+import type { Virtualization } from '../../src/types';
 import {
   getCells,
   getCellsAtRowIndex,
@@ -14,7 +15,7 @@ import {
 const rowHeight = 35;
 
 function setupGrid(
-  enableVirtualization: boolean,
+  enableVirtualization: Virtualization,
   columnCount: number,
   rowCount: number,
   frozenColumnCount = 0,
@@ -94,7 +95,7 @@ function assertCellIndexes(rowIdx: number, indexes: number[]) {
 }
 
 test('virtualization is enabled', async () => {
-  setupGrid(true, 30, 100);
+  setupGrid('all', 30, 100);
 
   assertHeaderCells(18, 0, 17);
   assertRows(34, 0, 33);
@@ -148,7 +149,7 @@ test('virtualization is enabled', async () => {
 });
 
 test('virtualization is enabled with 4 frozen columns', async () => {
-  setupGrid(true, 30, 30, 4);
+  setupGrid('all', 30, 30, 4);
 
   let indexes = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17];
   assertHeaderCellIndexes(indexes);
@@ -167,7 +168,7 @@ test('virtualization is enabled with 4 frozen columns', async () => {
 });
 
 test('virtualization is enabled with all columns frozen', async () => {
-  setupGrid(true, 30, 30, 30);
+  setupGrid('all', 30, 30, 30);
 
   const indexes = [
     0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
@@ -187,7 +188,7 @@ test('virtualization is enabled with all columns frozen', async () => {
 });
 
 test('virtualization is enabled with 2 summary rows', async () => {
-  setupGrid(true, 1, 100, 0, 2);
+  setupGrid('all', 1, 100, 0, 2);
 
   assertRowIndexes([
     0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
@@ -202,7 +203,7 @@ test('virtualization is enabled with 2 summary rows', async () => {
 });
 
 test('zero columns', () => {
-  setupGrid(true, 0, 100);
+  setupGrid('all', 0, 100);
 
   expect(queryHeaderCells()).toHaveLength(0);
   expect(queryCells()).toHaveLength(0);
@@ -210,7 +211,7 @@ test('zero columns', () => {
 });
 
 test('zero rows', () => {
-  setupGrid(true, 20, 0);
+  setupGrid('all', 20, 0);
 
   expect(getHeaderCells()).toHaveLength(18);
   expect(queryCells()).toHaveLength(0);
@@ -218,7 +219,7 @@ test('zero rows', () => {
 });
 
 test('virtualization is enable with not enough columns or rows to virtualize', () => {
-  setupGrid(true, 5, 5);
+  setupGrid('all', 5, 5);
 
   assertHeaderCells(5, 0, 4);
   assertRows(5, 0, 4);
@@ -228,7 +229,7 @@ test('virtualization is enable with not enough columns or rows to virtualize', (
 });
 
 test('enableVirtualization is disabled', () => {
-  setupGrid(false, 40, 100);
+  setupGrid('none', 40, 100);
 
   assertHeaderCells(40, 0, 39);
   assertRows(100, 0, 99);
